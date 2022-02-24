@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    Create Listing
+{% endblock %}
+
+{% block body %}
+<form action  = "{% url 'createlisting' %}" method = "post" autocomplete="off">
+{% csrf_token %} 
+<p>Item Title:</p>
+{{ form.item_title }}
+<br>
+<p>Item Price:</p>
+{{ form.item_price }}
+<br>
+<p>Item Description:</p>
+{{ form.item_desc }}
+<br>
+<p>Item Image:</p>
+{{ form.item_image }}
+<br>
+<p>Item Category:</p>
+{{ form.item_category }}
+<br>
+<input type="submit" value="Save" class="save btn btn-success my-3" name = "submit">
+</form>
+{% endblock %}

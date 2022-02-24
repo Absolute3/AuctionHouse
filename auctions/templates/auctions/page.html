@@ -1,0 +1,97 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {{ message.item_title }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ message.item_title }}</h1>
+    <br>
+    {% if closed %}
+    {% if topbidholder %}
+        <div class="alert alert-success" role="alert">
+            <center>THIS AUCTION HAS ENDED AND YOU HAVE WON!</center>
+        </div>
+    {% else %}
+        <div class="alert alert-success" role="alert">
+            <center>THIS AUCTION HAS ENDED AND USER : '{{ topbid.price_user }}' HAS WON!</center>
+        </div>
+    {% endif %}
+    {% endif %}
+
+    <div style="width: 100%; overflow: hidden;">
+
+        <div style="width: 450px; float: left;">
+            <img style = "width:290px" src = '{{ message.item_image}}'>
+            
+        </div>
+        
+
+        <div style="margin-left: 200px;">
+            <p>Product Description : {{ message.item_desc }}</p>
+            <p>Starting Price : ${{ message.item_price }}</p>
+            {% if topbid %}
+            <p>Current Bid: ${{ topbid.item_bid }} by {{ topbid.price_user }} </p>
+            {% endif %}
+            <p>Product Category: {{ message.item_category }}</p> 
+            {% if message.item_status == 'OPEN' %} 
+                <p>Status: Open</p>
+            {% else %}
+                <p>Status: Closed</p>
+            {% endif %}
+            <p>Item Lister : {{ message.item_lister }}</p>
+
+            {% if owner %}
+            <button type="button" class="btn btn-secondary"><a href="{% url 'close_auction' message.item_title %}" style="text-decoration:none; color:white;">Close Auction</a></button>
+            {% else %}
+            {% if bidform %}
+            {% if user.is_authenticated %}
+            <form action = "{% url 'bid' message.item_title  %}" method = POST>
+                {% csrf_token %}
+                {{ bidform }}
+                <input type="submit" value="Submit" class="save btn btn-success my-3" name = "submit">
+            </form>
+            {% endif %}
+            {% endif %}
+            {% if bidtoolow %}
+            <div class="alert alert-danger" role="alert">
+                <center>Bid must be greater than current bid!</center>
+            </div>
+            {% endif %}
+            
+            {% endif %}
+            
+        </div>
+    </div>
+    <br>
+    {% if watch %}
+        <div id = "link">
+            <button type="button" class="btn btn-danger"><a href="{% url 'remove_watchlist' message.item_title %}" style="text-decoration:none; color:white;">Remove from WatchList</a></button>
+        {% else %}
+            <button type="button" class="btn btn-success"><a href="{% url 'add_watchlist' message.item_title %}" style="text-decoration:none; color:white;">Add to WatchList</a></button>
+            </div>
+        {% endif %}
+    
+    <hr>
+    
+    <div class = "comment-section">
+    <h5>Comments</h5>
+    {% if user.is_authenticated %}
+    {% if commentform %}
+    <form method = POST>
+        {% csrf_token %}
+        {{ commentform }}
+        <input type="submit" value="Submit" class="save btn btn-success my-3" name = "submit">
+    </form>
+    {% endif %}
+    {% endif %}
+    <hr>
+    <br>
+    {% for i in comments %}
+        <b>{{ i.comment_user }}</b>:
+        <br> 
+        {{ i.item_comment }}
+        <br><br>
+    {% endfor %}
+    </div>
+{% endblock %}

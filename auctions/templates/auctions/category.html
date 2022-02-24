@@ -1,0 +1,44 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    {% if message %}
+        Categories 
+    {% endif %}
+
+    {% if content %}
+        {{ mm }}
+    {% endif %}
+    
+{% endblock %}
+
+{% block body %}
+
+{% if message %}
+<h2>All Categories</h2> 
+<br>
+<ul>
+{% for i in message %}
+    <li><a href="categories/{{ i.item_category }}">{{i.item_category}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if content %} 
+<h2>Items in {{mm}}</h2>
+<br>
+<ul>
+    {% for i in content %}
+        <div style="width: 100%; overflow: hidden;  margin-bottom: 20px;"></div>
+            <div style="width: 300px; float: left;"> 
+                <a href = "{% url 'page' i%}"> <img style = "width:290px"  src = '{{ i.item_image}}'></a>
+            </div>
+            
+            <div style="margin-left: 200px;"> 
+                <p><a href = "{% url 'page' i%}">{{ i }}</a></p>
+                <p> {{i.item_desc}} </p>     
+            </div>
+        </div> 
+    {% endfor %}
+</ul>
+{% endif %}
+{%endblock%}

@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    eBae
+{% endblock %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    <br>
+
+    {% for i in message %}
+        <div style="width: 100%; overflow: hidden;  margin-bottom: 20px;"></div>
+            <div style="width: 300px; float: left;"> 
+                <a href = "item/{{i.item_title}}"> <img style = "width:290px"  src = '{{ i.item_image}}'></a>
+            </div>
+            
+            <div style="margin-left: 200px;"> 
+                <p><a href = "item/{{i.item_title}}">{{ i }}</a></p>
+                <p> {{i.item_desc}} </p>
+                <p>Start Price: ${{ i.item_price }}</p>
+            </div>
+        </div> 
+    {% endfor %}
+
+{% endblock %}

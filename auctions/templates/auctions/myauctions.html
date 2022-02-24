@@ -1,0 +1,48 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}
+    My Listings
+{% endblock %}
+
+{% block body %}
+    
+    {% if message %}
+    <h2> You don't have anything listed </h2>
+    {% else %}
+    {% if open %}
+    
+    <h2>Active Listings</h2>
+    {% for i in open %}
+    <br>
+        <div style="width: 100%; overflow: hidden;  margin-bottom: 20px;"></div>
+            <div style="width: 300px; float: left;"> 
+                <a href = "item/{{i.item_title}}"> <img style = "width:290px"  src = '{{ i.item_image}}'></a>
+            </div>
+            
+            <div style="margin-left: 200px;"> 
+                <p><a href = "item/{{i.item_title}}">{{ i }}</a></p>
+                <p> {{i.item_desc}} </p>     
+            </div>
+        </div> 
+    {% endfor %}
+    {% endif %}
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    {% if closed %}
+    <div><h2>Closed Listings</h2></div>
+   
+    {% for i in closed %}
+    <br>
+        <div style="width: 100%; overflow: hidden;  margin-bottom: 20px;"></div>
+            <div style="width: 300px; float: left;"> 
+                <img style = "width:290px"  src = '{{ i.item_image }}'>
+            </div>
+            
+            <div style="margin-left: 200px;"> 
+                <p><a href = "item/{{i.item_title}}">{{ i }}</a></p>
+                <p> {{i.item_desc}} </p>     
+            </div>
+        </div> 
+        {% endfor %}
+    {% endif %}
+    {% endif %}
+{% endblock %}
